@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Hitung Biaya Admin</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet" />
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+        <style>
+    		body {
+    			padding: 20px;
+    			font-family: "Nunito Sans", sans-serif;
+    			color: #282b45;
+    		}
+    		
+    		h3 {
+    			font-weight: bold;
+    		}
+
+            table {
+                width: 50%;
+    			border-collapse: separate;
+    			border-spacing: 5px;
+    		}
+
+    		.marketplace-section {
+    			margin-bottom: 30px;
+    			justify-content: center;
+    			text-align: center;
+    		}
+
+    		.radio-container {
+    			display: flex;
+    			justify-content: center;
+    			gap: 20px;
+    		}
+
+    		.radio-button-container {
+    			border: 1px solid rgb(212, 212, 212);
+    			border-radius: 8px;
+    			padding: 8px;
+    			width: fit-content;
+    			margin: 15px 0;
+    			font-size: 18px;
+    			cursor: pointer;
+    		}
+
+    		input[type="radio"] {
+    			margin: 0;
+    			cursor: pointer;
+    		}
+
+    		label {
+                margin: 0;
+    			cursor: pointer;
+    		}
+
+    		.button-submit {
+    			background-color: #0b30e1;
+    			border: none;
+    			border-radius: 8px;
+    			color: white;
+    			font-size: 18px;
+    			padding: 8px;
+    			width: 120px;
+    			box-shadow: 0px 10px 20px 0px #0b2fe12f;
+    		}
+
+    		.button-submit:hover {
+    			background-color: #0a28be;
+    			box-shadow: none;
+    		}
+
+    		td {
+    			font-size: 18px;
+    		}
+
+    		#shopee-add-price, #tokopedia-add-price, #tiktok-add-price {
+    			width: fit-content;
+    		}
+
+    		.button-remove, .btn-remove {
+    			background-color: red;
+    			box-shadow: 0px 10px 20px 0px rgba(255, 0, 0, 0.226);
+    			border: none;
+    			border-radius: 8px;
+    			color: white;
+    			font-size: 18px;
+    			padding: 8px; 
+    			width: 120px;
+    		}
+
+    		.button-remove:hover, .btn-remove:hover {
+    			box-shadow: none;
+    			background-color: rgb(231, 3, 3);
+    		}
+
+    		.form-section {
+    			font-size: 18px;
+    		}
+
+    		.input-form {
+    			border-radius: 8px;
+    			border: 1px solid rgb(212, 212, 212);
+    			padding: 8px;
+    		}
+
+    		.input-form:focus {
+    			outline: none !important;
+    			border-color: #0b2fe12f;
+    			box-shadow: 0 0 5px #0b2fe12f;
+    		}
+
+    		.button-container {
+    			margin: 20px 0;
+    			display: flex;
+    			justify-content: flex-end;
+    			gap: 20px;
+    		}
+
+    		.table {
+    			border-radius: 8px;
+    			box-shadow:  0px 10px 20px 0px rgba(177, 175, 175, 0.226);;
+    		}
+
+    		.row {
+    			width: 200px;
+    			border-top: none !important;
+    		}
+
+    		.footer {
+    			position: fixed;
+    			left: 0;
+    			bottom: 0;
+    			width: 100%;
+    			padding: 5px;
+    			text-align: center;
+    			background-color: white;
+    		}
+    		  
+    		.form-section {
+                display:none;
+    		}
+        </style>
+    </head>
+    <body>
+        <div class="marketplace-section">
+            <h3 style="margin-bottom: 15px">Silahkan Pilih Marketplace</h3>
+    		
+            <div class="radio-container">
+                <div class="radio-button-container">
+                    <input type="radio" name="marketplace" value="shopee" />
+                    <label for="shopee">Shopee</label>
+                </div>
+
+                <div class="radio-button-container">
+                    <input type="radio" name="marketplace" value="tokopedia" />
+                    <label for="tokopedia">Tokopedia</label>
+                </div>
+
+                <div class="radio-button-container">
+                    <input type="radio" name="marketplace" value="tiktok-shop" />
+                    <label for="tiktok-shop">Tiktok Shop</label>
+                </div>
+            </div>
+
+            <button id="submit-marketplace" class="button-submit">Pilih</button>
+
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#submit-marketplace").click(function() {
+                        if ($("input[name$='marketplace']").is(":checked")) {
+                            var marketplace = $("input[name$='marketplace']:checked").val();
+                            $(".form-section").show();
+                            $("div.form-fill").hide();
+                            $('#' + marketplace).show();
+                        } else {
+                            alert("Silahkan pilih marketplace terlebih dahulu");
+                        }   
+                    });
+                });
+            </script>
+        </div>
+
+        <div class="form-section">
+            <div id="shopee" class="form-fill">
+                <form name="price-form">
+            		<table cellpadding="10">
+        				<tr>
+        					<td>Biaya Admin</td>
+        					<td>
+                                <input type="number" placeholder="Biaya Admin" step="0.1" min="0" class="input-form" name="admin-fee" />
+            				</td>
+            			</tr>
+            			<tr>
+            				<td></td>
+            				<td>
+            					<button type="submit" class="button-submit" id="btn-shopee">Hitung</button>
+            				</td>
+            			</tr>
+                    </table>
+
+                    <div class="button-container">
+                        <button name="add-price" id="shopee-add-price" class="button-submit">Tambah Harga</button>
+                        <button id="shopee-reset" class="button-remove">Reset</button>
+                    </div>
+
+                    <div>
+                        <table class="table" id="shopee-table">
+                            <tr>
+                                <th class="row">Harga</th>
+                                <th class="row">Harga + Admin</th>
+                                <th class="row"></th>
+                            </tr>
+                            <tr id="shopee-1" class="row-price">
+                                <td>
+                                    <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />
+                                </td>
+                                <td>
+                                    <label></label>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $("#shopee-add-price").click(function(e) {
+                            e.preventDefault();
+
+                            var row = $('#shopee-table tr').length;
+                            var price_row = "shopee-" + row;
+                            var table = '<tr id=' + price_row + ' class="row-price">' +
+                                            '<td>' +
+                                                '<input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />' +
+                                            '</td>' +
+                                            '<td>' +
+                                                '<label></label>' +
+                                            '</td>' +
+                                            '<td style="text-align: center;">' +
+                                                '<button name="remove-price" id="shopee-remove-' + price_row + '" class="btn-remove">' +
+                                                    '<i class="bi bi-trash-fill"></i>' +
+                                                '</button>'
+                                            '</td>' +
+                                        '</tr>'
+                            $('#shopee-table').append(table);
+                        });
+
+                        $('body').on('click', '.btn-remove', function(){
+                            var id = $(this).attr("id");
+                            var split = id.split("shopee-remove-");
+                            var price_id = split[1];
+                            $('#' + price_id).remove();
+                        });
+
+
+                        $('#btn-shopee').click(function() {
+                            $('form[name="price-form"]').on('submit', function (e) {
+                                e.preventDefault();
+                                var admin_fee = $('input[name="admin-fee"]').val();
+                                var row = $('#shopee-table tr').length;
+                                    
+                                for (var i = 1; i < row; i++) {
+                                    var price = $("#shopee-" + i).find("input").val();
+
+                                    var admin = 1 - (admin_fee / 100);
+                                    var price_after_admin = price / admin;
+                                    $("#shopee-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString());
+                                }
+                            });
+                        });
+
+                        $('#shopee-reset').click(function(e) {
+                            e.preventDefault();
+
+                            $('input[name="admin-fee"]').val('');
+                            $('#shopee-1').find("input").val('');
+                            $('#shopee-1').find("label").text('');
+
+                            var row = $('#shopee-table tr').length;
+                            for (var i = 2; i < row; i++) {
+                                $("#shopee-" + i).remove();
+                            }
+                        });
+                    });
+                </script>
+            </div>
+            
+            <div id="tokopedia" class="form-fill">
+                <form name="price-form">
+                    <table>
+                        <tr>
+                            <td>Biaya Admin Merchant</td>
+                            <td>
+                                <input type="number" placeholder="Biaya Admin Merchant" step="0.1" min="0" class="input-form" name="admin-fee-merchant"/>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Biaya Admin Gratis Ongkir</td>
+                            <td>
+                              <input type="number" placeholder="Biaya Admin Gratis Ongkir" step="0.1" min="0" class="input-form" name="admin-fee-ongkir"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                              <button type="submit" class="button-submit" id="btn-tokopedia">Hitung</button>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="button-container">
+                        <button name="add-price" id="tokopedia-add-price" class="button-submit">Tambah Harga</button>
+                        <button name="reset" id="tokopedia-reset" class="button-remove">Reset</button>
+                    </div>
+
+                    <div>
+                        <table class="table" id="tokopedia-table">
+                            <tr>
+                                <th class="row">Harga</th>
+                                <th class="row">Harga + Admin</th>
+                                <th class="row"></th>
+                            </tr>
+                            <tr id="tokopedia-1" class="row-price">
+                                <td>
+                                    <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />
+                                </td>
+                                <td>
+                                    <label></label>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $("#tokopedia-add-price").click(function(e) {
+                            e.preventDefault();
+
+                            var row = $('#tokopedia-table tr').length;
+                            var price_row = "tokopedia-" + row;
+                            var table = '<tr id=' + price_row + ' class="row-price">' +
+                                            '<td>' +
+                                                '<input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />' +
+                                            '</td>' +
+                                            '<td>' +
+                                                '<label></label>' +
+                                            '</td>' +
+                                            '<td style="text-align: center;">' +
+                                                '<button name="remove-price" id="tokopedia-remove-' + price_row + '" class="btn-remove">' +
+                                                    '<i class="bi bi-trash-fill"></i>' +
+                                                '</button>'
+                                            '</td>' +
+                                        '</tr>'
+                            $('#tokopedia-table').append(table);
+                        });
+
+                        $('body').on('click', '.btn-remove', function(){
+                            var id = $(this).attr("id");
+                            var split = id.split("tokopedia-remove-");
+                            var price_id = split[1];
+                            $('#' + price_id).remove();
+                        });
+
+                        $('#btn-tokopedia').click(function() {
+                            $('form[name="price-form"]').on('submit', function (e) {
+                                e.preventDefault();
+                                var admin_fee_merchant = $('input[name="admin-fee-merchant"]').val() / 100;
+                                var admin_fee_ongkir = $('input[name="admin-fee-ongkir"]').val() / 100;
+                                var max_admin_fee = 10000;
+
+                                var row = $('#tokopedia-table tr').length;    
+                                for (var i = 1; i < row; i++) {
+                                    var price = $("#tokopedia-" + i).find("input").val();
+
+                                    var price_admin_fee_merchant = price * admin_fee_merchant;
+                                    var price_admin_fee_ongkir = price * admin_fee_ongkir;
+
+                                    var upper = price;
+                                    var divider = 1;
+                                    if (Math.round(price_admin_fee_merchant) > max_admin_fee) {
+                                        upper += max_admin_fee;
+                                    } else {
+                                        divider -= admin_fee_merchant;
+                                    }
+
+                                    if (Math.round(price_admin_fee_ongkir) > max_admin_fee) {
+                                        upper += max_admin_fee;
+                                    } else {
+                                        divider -= admin_fee_ongkir;
+                                    }
+
+                                    var price_after_admin = upper / divider;
+                                    $("#tokopedia-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString());
+                                }
+                            });
+                        });
+
+                        $('#tokopedia-reset').click(function(e) {
+                            e.preventDefault();
+
+                            $('input[name="admin-fee-merchant"]').val('');
+                            $('input[name="admin-fee-ongkir"]').val('');
+                            $('#tokopedia-1').find("input").val('');
+                            $('#tokopedia-1').find("label").text('');
+
+                            var row = $('#tokopedia-table tr').length;
+                            for (var i = 2; i < row; i++) {
+                                $("#tokopedia-" + i).remove();
+                            }
+                        });
+                    });
+                </script>
+            </div>
+
+            <div id="tiktok-shop" class="form-fill">
+                <form name="price-form">
+                    <div width="100%">
+                        <div width="50%" style="float:left">
+                            <button type="submit" class="button-submit" id="btn-tiktok">Hitung</button>
+                        </div>
+
+                        <div class="button-container" width="50%">
+                            <button name="add-price" id="tiktok-add-price" class="button-submit">Tambah Harga</button>
+                            <button name="reset" id="tiktok-reset" class="button-remove">Reset</button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <table class="table" id="tiktok-table">
+                            <tr>
+                                <th class="row">Harga</th>
+                                <th class="row">Harga + Admin</th>
+                                <th class="row"></th>
+                            </tr>
+                            <tr id="tiktok-1" class="row-price">
+                                <td>
+                                    <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />
+                                </td>
+                                <td>
+                                    <label></label>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $("#tiktok-add-price").click(function(e) {
+                            e.preventDefault();
+
+                            var row = $('#tiktok-table tr').length;
+                            var price_row = "tiktok-" + row;
+                            var table = '<tr id=' + price_row + ' class="row-price">' +
+                                            '<td>' +
+                                                '<input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />' +
+                                            '</td>' +
+                                            '<td>' +
+                                                '<label></label>' +
+                                            '</td>' +
+                                            '<td style="text-align: center;">' +
+                                                '<button name="remove-price" id="tiktok-remove-' + price_row + '" class="btn-remove">' +
+                                                    '<i class="bi bi-trash-fill"></i>' +
+                                                '</button>'
+                                            '</td>' +
+                                        '</tr>'
+                            $('#tiktok-table').append(table);
+                        });
+
+                        $('body').on('click', '.btn-remove', function(){
+                            var id = $(this).attr("id");
+                            var split = id.split("tiktok-remove-");
+                            var price_id = split[1];
+                            $('#' + price_id).remove();
+                        });
+
+                        $('#btn-tiktok').click(function() {
+                            $('form[name="price-form"]').on('submit', function (e) {
+                                e.preventDefault();
+                                var row = $('#tiktok-table tr').length;
+                                var fixed_admin_fee = 2000;
+                                var fixed_admin_fee_percentage = 1 / 100;
+                                    
+                                for (var i = 1; i < row; i++) {
+                                    var price = $("#tiktok-" + i).find("input").val();
+                                    var price_after_admin = (parseInt(price) + parseInt(fixed_admin_fee)) / (1 - fixed_admin_fee_percentage);
+                                    $("#tiktok-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString());
+                                }
+                            });
+                        });
+
+                        $('#tiktok-reset').click(function(e) {
+                            e.preventDefault();
+
+                            $('#tiktok-1').find("input").val('');
+                            $('#tiktok-1').find("label").text('');
+
+                            var row = $('#tiktok-table tr').length;
+                            for (var i = 2; i < row; i++) {
+                                $("#tiktok-" + i).remove();
+                            }
+                        });
+                   });
+                </script>
+            </div>
+        </div>
+    	
+        <div class="footer">
+            <label>Made with <i class="bi bi-suit-heart-fill"></i></label>
+            <br />
+
+            <label ><a href="https://twitter.com/leeheeseungnim" target="_blank">@leeheeseungnim</a></label>
+            <label> & </label>
+            <label><a href="https://twitter.com/geniustangerine" target="_blank">@geniustangerine</a></label>
+        </div>
+    </body>
+</html>
