@@ -17,16 +17,11 @@
     			padding: 20px;
     			font-family: "Nunito Sans", sans-serif;
     			color: #282b45;
+    			margin: 20px;
     		}
     		
-    		h3 {
+    		h3, h1 {
     			font-weight: bold;
-    		}
-
-            table {
-                width: 50%;
-    			border-collapse: separate;
-    			border-spacing: 5px;
     		}
 
     		.marketplace-section {
@@ -39,20 +34,24 @@
     			display: flex;
     			justify-content: center;
     			gap: 20px;
+    			flex-direction: row;
+    			flex-wrap: nowrap;
+    			margin-bottom: 10px;
+    			align-items: center;
     		}
 
     		.radio-button-container {
     			border: 1px solid rgb(212, 212, 212);
     			border-radius: 8px;
-    			padding: 8px;
-    			width: fit-content;
-    			margin: 15px 0;
+    			padding: 10px;
+    			width: 150px;
+    			margin: 5px 0;
     			font-size: 18px;
     			cursor: pointer;
     		}
 
     		input[type="radio"] {
-    			margin: 0;
+    			margin: 5px;
     			cursor: pointer;
     		}
 
@@ -70,6 +69,7 @@
     			padding: 8px;
     			width: 120px;
     			box-shadow: 0px 10px 20px 0px #0b2fe12f;
+    			margin-top: 10px;
     		}
 
     		.button-submit:hover {
@@ -85,7 +85,7 @@
     			width: fit-content;
     		}
 
-    		.button-remove, .btn-remove {
+    		.button-remove {
     			background-color: red;
     			box-shadow: 0px 10px 20px 0px rgba(255, 0, 0, 0.226);
     			border: none;
@@ -94,9 +94,26 @@
     			font-size: 18px;
     			padding: 8px; 
     			width: 120px;
+    			margin-top: 10px;
     		}
 
-    		.button-remove:hover, .btn-remove:hover {
+    		.button-remove:hover {
+    			box-shadow: none;
+    			background-color: rgb(231, 3, 3);
+    		}
+
+    		.btn-remove {
+    			background-color: red;
+    			box-shadow: 0px 10px 20px 0px rgba(255, 0, 0, 0.226);
+    			border: none;
+    			border-radius: 8px;
+    			color: white;
+    			font-size: 18px;
+    			padding: 8px;
+    			width: 40px;
+    		}
+
+    		.btn-remove:hover {
     			box-shadow: none;
     			background-color: rgb(231, 3, 3);
     		}
@@ -109,6 +126,7 @@
     			border-radius: 8px;
     			border: 1px solid rgb(212, 212, 212);
     			padding: 8px;
+    			width:100%;
     		}
 
     		.input-form:focus {
@@ -118,20 +136,9 @@
     		}
 
     		.button-container {
-    			margin: 20px 0;
-    			display: flex;
-    			justify-content: flex-end;
-    			gap: 20px;
-    		}
-
-    		.table {
-    			border-radius: 8px;
-    			box-shadow:  0px 10px 20px 0px rgba(177, 175, 175, 0.226);;
-    		}
-
-    		.row {
-    			width: 200px;
-    			border-top: none !important;
+    			margin-top: 30px;
+    			margin-bottom: 20px;
+    			gap: 5px;
     		}
 
     		.footer {
@@ -147,11 +154,59 @@
     		.form-section {
                 display:none;
     		}
+
+            .title {
+                background-color: #0a28be;
+                color: white;
+                padding: 5px;
+            }
+
+            .tooltip-icon {
+                position: relative;
+                display: inline-block;
+                border: none;
+                background: transparent;
+                margin-left: 5px;
+            }
+
+            .tooltip-icon .tooltip-text {
+                  visibility: hidden;
+                  width: 500px;
+                  background-color: #e0e0e0;
+                  border-radius: 6px;
+                  padding: 10px;
+                  position: absolute;
+                  z-index: 1;
+            }
+
+            .tooltip-icon:hover .tooltip-text {
+                visibility: visible;
+            }
+
+    		@media only screen and (max-device-width: 480px) {
+    		    body {
+    		        margin: 0;
+    		    }
+
+    		    .radio-container {
+    		        justify-content: center;
+    		        flex-direction: column;
+    		        gap: 0px;
+    		        align-items: center;
+    		    }
+
+    		    .radio-button-container {
+    		        width: 100%;
+    		    }
+            }
         </style>
     </head>
     <body>
+        <div class="title">
+            <h1 style="margin: 10px">ADMIN FEE CALCULATOR</h1>
+        </div>
         <div class="marketplace-section">
-            <h3 style="margin-bottom: 15px">Silahkan Pilih Marketplace</h3>
+            <h3 style="margin-bottom: 15px">Pilih Marketplace</h3>
     		
             <div class="radio-container">
                 <div class="radio-button-container">
@@ -189,22 +244,25 @@
         </div>
 
         <div class="form-section">
+            <hr>
+
             <div id="shopee" class="form-fill">
                 <form name="price-form">
-            		<table cellpadding="10">
-        				<tr>
-        					<td>Biaya Admin</td>
-        					<td>
-                                <input type="number" placeholder="Biaya Admin" step="0.1" min="0" class="input-form" name="admin-fee" />
-            				</td>
-            			</tr>
-            			<tr>
-            				<td></td>
-            				<td>
-            					<button type="submit" class="button-submit" id="btn-shopee">Hitung</button>
-            				</td>
-            			</tr>
-                    </table>
+                    <div>
+                        <div>
+                            <label>Biaya Admin (%)</label>
+                            <div class="tooltip-icon">
+                                <i class="bi bi-info-circle"></i>
+                                <div class="tooltip-text">
+                                    <span>Cek biaya admin Shopee sesuai variasi produk dan tipe penjual</span>
+                                    <a href="https://seller.shopee.co.id/edu/article/3489">di sini</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="number" placeholder="Biaya Admin" step="0.1" min="0" class="input-form" name="admin-fee" />
+                        <button type="submit" class="button-submit" id="btn-shopee">Hitung</button>
+                    </div>
 
                     <div class="button-container">
                         <button name="add-price" id="shopee-add-price" class="button-submit">Tambah Harga</button>
@@ -212,20 +270,21 @@
                     </div>
 
                     <div>
-                        <table class="table" id="shopee-table">
+                        <table class="table table-striped" id="shopee-table">
+                            <col width="60px">
                             <tr>
-                                <th class="row">Harga</th>
-                                <th class="row">Harga + Admin</th>
-                                <th class="row"></th>
+                                <th></th>
+                                <th>Harga</th>
+                                <th>Harga + Admin</th>
                             </tr>
-                            <tr id="shopee-1" class="row-price">
+                            <tr id="shopee-1">
+                                <td></td>
                                 <td>
                                     <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />
                                 </td>
                                 <td>
                                     <label></label>
                                 </td>
-                                <td></td>
                             </tr>
                         </table>
                     </div>
@@ -238,17 +297,17 @@
 
                             var row = $('#shopee-table tr').length;
                             var price_row = "shopee-" + row;
-                            var table = '<tr id=' + price_row + ' class="row-price">' +
+                            var table = '<tr id=' + price_row + '>' +
+                                            '<td style="text-align: center;">' +
+                                                '<button name="remove-price" id="shopee-remove-' + price_row + '" class="btn-remove">' +
+                                                    '<i class="bi bi-trash-fill"></i>' +
+                                                '</button>' +
+                                            '</td>' +
                                             '<td>' +
                                                 '<input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />' +
                                             '</td>' +
                                             '<td>' +
                                                 '<label></label>' +
-                                            '</td>' +
-                                            '<td style="text-align: center;">' +
-                                                '<button name="remove-price" id="shopee-remove-' + price_row + '" class="btn-remove">' +
-                                                    '<i class="bi bi-trash-fill"></i>' +
-                                                '</button>'
                                             '</td>' +
                                         '</tr>'
                             $('#shopee-table').append(table);
@@ -296,27 +355,37 @@
             
             <div id="tokopedia" class="form-fill">
                 <form name="price-form">
-                    <table>
-                        <tr>
-                            <td>Biaya Admin Merchant</td>
-                            <td>
-                                <input type="number" placeholder="Biaya Admin Merchant" step="0.1" min="0" class="input-form" name="admin-fee-merchant"/>
-                            </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Biaya Admin Gratis Ongkir</td>
-                            <td>
-                              <input type="number" placeholder="Biaya Admin Gratis Ongkir" step="0.1" min="0" class="input-form" name="admin-fee-ongkir"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                              <button type="submit" class="button-submit" id="btn-tokopedia">Hitung</button>
-                            </td>
-                        </tr>
-                    </table>
+                    <div>
+                        <div>
+                            <label>Biaya Admin Merchant (%)</b></label>
+                            <div class="tooltip-icon">
+                                <i class="bi bi-info-circle"></i>
+                                <div class="tooltip-text">
+                                    <span>Cek biaya admin Tokopedia sesuai variasi produk dan tipe merchant</span>
+                                    <a href="https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/">di sini</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="number" placeholder="Biaya Admin Merchant" step="0.1" min="0" class="input-form" name="admin-fee-merchant"/>
+
+                        <div style="margin-bottom:15px"></div>
+
+                        <div>
+                            <label>Tipe Merchant</label>
+                            <div class="tooltip-icon">
+                                <i class="bi bi-info-circle"></i>
+                                <div class="tooltip-text">
+                                    <span>Cek biaya admin gratis ongkir Tokopedia sesuai tipe merchant</span>
+                                    <a href="https://www.tokopedia.com/help/article/saya-dikenakan-biaya-layanan-bebas-ongkir-tidak-sesuai">di sini</a>
+                                </div>
+                            </div>
+
+                            <input type="number" placeholder="Biaya Admin Gratis Ongkir" step="0.1" min="0" class="input-form" name="admin-fee-ongkir"/>
+                        </div>
+
+                        <button type="submit" class="button-submit" id="btn-tokopedia">Hitung</button>
+                    </div>
 
                     <div class="button-container">
                         <button name="add-price" id="tokopedia-add-price" class="button-submit">Tambah Harga</button>
@@ -324,20 +393,21 @@
                     </div>
 
                     <div>
-                        <table class="table" id="tokopedia-table">
+                        <table class="table table-striped" id="tokopedia-table">
+                            <col width="60px" />
                             <tr>
-                                <th class="row">Harga</th>
-                                <th class="row">Harga + Admin</th>
-                                <th class="row"></th>
+                                <th></th>
+                                <th>Harga</th>
+                                <th>Harga + Admin</th>
                             </tr>
-                            <tr id="tokopedia-1" class="row-price">
+                            <tr id="tokopedia-1">
+                                <td></td>
                                 <td>
                                     <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />
                                 </td>
                                 <td>
                                     <label></label>
                                 </td>
-                                <td></td>
                             </tr>
                         </table>
                     </div>
@@ -350,17 +420,17 @@
 
                             var row = $('#tokopedia-table tr').length;
                             var price_row = "tokopedia-" + row;
-                            var table = '<tr id=' + price_row + ' class="row-price">' +
+                            var table = '<tr id=' + price_row + '>' +
+                                            '<td style="text-align: center;">' +
+                                                '<button name="remove-price" id="tokopedia-remove-' + price_row + '" class="btn-remove">' +
+                                                    '<i class="bi bi-trash-fill"></i>' +
+                                                '</button>' +
+                                            '</td>' +
                                             '<td>' +
                                                 '<input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />' +
                                             '</td>' +
                                             '<td>' +
                                                 '<label></label>' +
-                                            '</td>' +
-                                            '<td style="text-align: center;">' +
-                                                '<button name="remove-price" id="tokopedia-remove-' + price_row + '" class="btn-remove">' +
-                                                    '<i class="bi bi-trash-fill"></i>' +
-                                                '</button>'
                                             '</td>' +
                                         '</tr>'
                             $('#tokopedia-table').append(table);
@@ -426,32 +496,40 @@
 
             <div id="tiktok-shop" class="form-fill">
                 <form name="price-form">
-                    <div width="100%">
-                        <div width="50%" style="float:left">
-                            <button type="submit" class="button-submit" id="btn-tiktok">Hitung</button>
+                    <div>
+                        <button type="submit" class="button-submit" id="btn-tiktok">Hitung</button>
+
+                        <div class="tooltip-icon">
+                            <i class="bi bi-info-circle"></i>
+                            <div class="tooltip-text">
+                                <span>Sesuai artikel</span>
+                                <a href="https://pintarjualan.id/biaya-admin-tiktok-shop/"> ini</a>
+                                <span>, biaya admin tiktok shop adalah Rp2000 + 1% dikalikan harga barang</span>
+                            </div>
                         </div>
 
-                        <div class="button-container" width="50%">
+                        <div class="button-container">
                             <button name="add-price" id="tiktok-add-price" class="button-submit">Tambah Harga</button>
                             <button name="reset" id="tiktok-reset" class="button-remove">Reset</button>
                         </div>
                     </div>
                     
                     <div>
-                        <table class="table" id="tiktok-table">
+                        <table class="table table-striped" id="tiktok-table">
+                            <col width="60px;" />
                             <tr>
-                                <th class="row">Harga</th>
-                                <th class="row">Harga + Admin</th>
-                                <th class="row"></th>
+                                <th></th>
+                                <th>Harga</th>
+                                <th>Harga + Admin</th>
                             </tr>
-                            <tr id="tiktok-1" class="row-price">
+                            <tr id="tiktok-1">
+                                <td></td>
                                 <td>
                                     <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />
                                 </td>
                                 <td>
                                     <label></label>
                                 </td>
-                                <td></td>
                             </tr>
                         </table>
                     </div>
@@ -464,17 +542,17 @@
 
                             var row = $('#tiktok-table tr').length;
                             var price_row = "tiktok-" + row;
-                            var table = '<tr id=' + price_row + ' class="row-price">' +
+                            var table = '<tr id=' + price_row + '>' +
+                                            '<td style="text-align: center;">' +
+                                                '<button name="remove-price" id="tiktok-remove-' + price_row + '" class="btn-remove">' +
+                                                    '<i class="bi bi-trash-fill"></i>' +
+                                                '</button>' +
+                                            '</td>' +
                                             '<td>' +
                                                 '<input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />' +
                                             '</td>' +
                                             '<td>' +
                                                 '<label></label>' +
-                                            '</td>' +
-                                            '<td style="text-align: center;">' +
-                                                '<button name="remove-price" id="tiktok-remove-' + price_row + '" class="btn-remove">' +
-                                                    '<i class="bi bi-trash-fill"></i>' +
-                                                '</button>'
                                             '</td>' +
                                         '</tr>'
                             $('#tiktok-table').append(table);
