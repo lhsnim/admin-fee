@@ -164,23 +164,26 @@
             .tooltip-icon {
                 position: relative;
                 display: inline-block;
-                border: none;
-                background: transparent;
-                margin-left: 5px;
+                margin-left: 10px;
             }
 
-            .tooltip-icon .tooltip-text {
-                  visibility: hidden;
-                  width: 500px;
-                  background-color: #e0e0e0;
-                  border-radius: 6px;
-                  padding: 10px;
-                  position: absolute;
-                  z-index: 1;
+            .tooltip-text {
+                display: none;
+                width: fit-content;
+                background-color: #e0e0e0;
+                font-size: 15px;
+                padding: 10px;
+                margin-bottom: 15px;
             }
 
-            .tooltip-icon:hover .tooltip-text {
-                visibility: visible;
+            .title-marketplace {
+                margin-bottom: 20px;
+                height: 40px;
+            }
+
+            ul {
+                padding: 0;
+                list-style: none;
             }
 
     		@media only screen and (max-device-width: 480px) {
@@ -197,6 +200,10 @@
 
     		    .radio-button-container {
     		        width: 100%;
+    		    }
+
+    		    .tooltip-text {
+    		        width:100%;
     		    }
             }
         </style>
@@ -247,19 +254,20 @@
             <hr>
 
             <div id="shopee" class="form-fill">
+                <img src="https://logodownload.org/wp-content/uploads/2021/03/shopee-logo.png" class="title-marketplace" />
+
+                <div class="tooltip-icon">
+                    <i class="bi bi-info-circle"></i>
+                </div>
+
+                <div class="tooltip-text">
+                    <span>Cek biaya admin Shopee sesuai variasi produk dan tipe penjual</span>
+                    <a href="https://seller.shopee.co.id/edu/article/3489">di sini</a>
+                </div>
+
                 <form name="price-form">
                     <div>
-                        <div>
-                            <label>Biaya Admin (%)</label>
-                            <div class="tooltip-icon">
-                                <i class="bi bi-info-circle"></i>
-                                <div class="tooltip-text">
-                                    <span>Cek biaya admin Shopee sesuai variasi produk dan tipe penjual</span>
-                                    <a href="https://seller.shopee.co.id/edu/article/3489">di sini</a>
-                                </div>
-                            </div>
-                        </div>
-
+                        <label>Biaya Admin (%)</label>
                         <input type="number" placeholder="Biaya Admin" step="0.1" min="0" class="input-form" name="admin-fee" />
                         <button type="submit" class="button-submit" id="btn-shopee">Hitung</button>
                     </div>
@@ -271,7 +279,7 @@
 
                     <div>
                         <table class="table table-striped" id="shopee-table">
-                            <col width="60px">
+                            <col width="60px" />
                             <tr>
                                 <th></th>
                                 <th>Harga</th>
@@ -354,35 +362,34 @@
             </div>
             
             <div id="tokopedia" class="form-fill">
+                <img src="https://www.freepnglogos.com/uploads/logo-tokopedia-png/tokopedia-apa-itu-startup-pengertian-cara-memulai-dan-1.png" class="title-marketplace" />
+
+                <div class="tooltip-icon">
+                    <i class="bi bi-info-circle"></i>
+                </div>
+
+                <div class="tooltip-text">
+                    <ul>
+                        <li>
+                            <span>Cek biaya admin Tokopedia sesuai variasi produk dan tipe merchant</span>
+                              <a href="https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/">di sini</a>
+                        </li>
+                        <li>
+                            <span>Cek biaya admin gratis ongkir Tokopedia sesuai tipe merchant</span>
+                            <a href="https://www.tokopedia.com/help/article/saya-dikenakan-biaya-layanan-bebas-ongkir-tidak-sesuai">di sini</a>
+                        </li>
+                    </ul>
+                </div>
+
                 <form name="price-form">
                     <div>
-                        <div>
-                            <label>Biaya Admin Merchant (%)</b></label>
-                            <div class="tooltip-icon">
-                                <i class="bi bi-info-circle"></i>
-                                <div class="tooltip-text">
-                                    <span>Cek biaya admin Tokopedia sesuai variasi produk dan tipe merchant</span>
-                                    <a href="https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/">di sini</a>
-                                </div>
-                            </div>
-                        </div>
-
+                        <label>Biaya Admin Merchant (%)</b></label>
                         <input type="number" placeholder="Biaya Admin Merchant" step="0.1" min="0" class="input-form" name="admin-fee-merchant"/>
 
                         <div style="margin-bottom:15px"></div>
 
-                        <div>
-                            <label>Tipe Merchant</label>
-                            <div class="tooltip-icon">
-                                <i class="bi bi-info-circle"></i>
-                                <div class="tooltip-text">
-                                    <span>Cek biaya admin gratis ongkir Tokopedia sesuai tipe merchant</span>
-                                    <a href="https://www.tokopedia.com/help/article/saya-dikenakan-biaya-layanan-bebas-ongkir-tidak-sesuai">di sini</a>
-                                </div>
-                            </div>
-
-                            <input type="number" placeholder="Biaya Admin Gratis Ongkir" step="0.1" min="0" class="input-form" name="admin-fee-ongkir"/>
-                        </div>
+                        <label>Biaya Admin Gratis Ongkir (%)</label>
+                        <input type="number" placeholder="Biaya Admin Gratis Ongkir" step="0.1" min="0" class="input-form" name="admin-fee-ongkir"/>
 
                         <button type="submit" class="button-submit" id="btn-tokopedia">Hitung</button>
                     </div>
@@ -495,18 +502,21 @@
             </div>
 
             <div id="tiktok-shop" class="form-fill">
+                <img src="https://www.freepnglogos.com/uploads/tik-tok-logo-png/file-logo-tik-tok-svg-20.png" class="title-marketplace" />
+
+                <div class="tooltip-icon">
+                    <i class="bi bi-info-circle"></i>
+                </div>
+
+                <div class="tooltip-text">
+                    <span>Sesuai artikel</span>
+                    <a href="https://pintarjualan.id/biaya-admin-tiktok-shop/"> ini</a>
+                    <span>, biaya admin tiktok shop adalah Rp2000 + 1% dikalikan harga barang</span>
+                </div>
+
                 <form name="price-form">
                     <div>
                         <button type="submit" class="button-submit" id="btn-tiktok">Hitung</button>
-
-                        <div class="tooltip-icon">
-                            <i class="bi bi-info-circle"></i>
-                            <div class="tooltip-text">
-                                <span>Sesuai artikel</span>
-                                <a href="https://pintarjualan.id/biaya-admin-tiktok-shop/"> ini</a>
-                                <span>, biaya admin tiktok shop adalah Rp2000 + 1% dikalikan harga barang</span>
-                            </div>
-                        </div>
 
                         <div class="button-container">
                             <button name="add-price" id="tiktok-add-price" class="button-submit">Tambah Harga</button>
@@ -604,5 +614,15 @@
             <label> & </label>
             <label><a href="https://twitter.com/geniustangerine" target="_blank">@geniustangerine</a></label>
         </div>
+        <script>
+            $(document).ready(function() {
+                $(".tooltip-icon").on("mouseenter", function () {
+<!--                alert(":p");-->
+                    $(".tooltip-text").show();
+                })
+                .on('mouseleave', function(){ $(".tooltip-text").hide(); });
+
+            });
+        </script>
     </body>
 </html>
