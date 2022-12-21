@@ -119,7 +119,8 @@
     		}
 
     		.form-section {
-    			font-size: 18px;
+    			font-size: 17px;
+    			margin-bottom: 50px;
     		}
 
     		.input-form {
@@ -241,12 +242,41 @@
 
             <script type="text/javascript">
                 $(document).ready(function() {
-                    $("#submit-marketplace").click(function() {
+                    $("#submit-marketplace").click(function(e) {
+                        e.preventDefault();
+
                         if ($("input[name$='marketplace']").is(":checked")) {
                             var marketplace = $("input[name$='marketplace']:checked").val();
                             $(".form-section").show();
                             $("div.form-fill").hide();
                             $('#' + marketplace).show();
+
+                            $('input[name="admin-fee"]').val('');
+                            $('#shopee-1').find("input").val('');
+                            $('#shopee-1').find("label").text('');
+
+                            $('input[name="admin-fee-merchant"]').val('');
+                            $('input[name="admin-fee-ongkir"]').val('');
+                            $('#tokopedia-1').find("input").val('');
+                            $('#tokopedia-1').find("label").text('');
+
+                            $('#tiktok-1').find("input").val('');
+                            $('#tiktok-1').find("label").text('');
+
+                            var shopee_row = $('#shopee-table tr').length;
+                            for (var i = 2; i < shopee_row; i++) {
+                                $("#shopee-" + i).remove();
+                            }
+
+                            var tokped_row = $('#tokopedia-table tr').length;
+                            for (var i = 2; i < tokped_row; i++) {
+                                $("#tokopedia-" + i).remove();
+                            }
+
+                            var tiktok_row = $('#tiktok-table tr').length;
+                            for (var i = 2; i < tiktok_row; i++) {
+                                $("#tiktok-" + i).remove();
+                            }
                         } else {
                             alert("Silahkan pilih marketplace terlebih dahulu");
                         }   
