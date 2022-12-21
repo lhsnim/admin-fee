@@ -186,6 +186,10 @@
                 list-style: none;
             }
 
+            .close {
+                margin-left: 5px;
+            }
+
     		@media only screen and (max-device-width: 480px) {
     		    body {
     		        margin: 0;
@@ -204,6 +208,7 @@
 
     		    .tooltip-text {
     		        width:100%;
+    		        font-size: 13px;
     		    }
             }
         </style>
@@ -261,8 +266,12 @@
                 </div>
 
                 <div class="tooltip-text">
+                    <div class="close">
+                        <i class="bi bi-x-lg"></i>
+                    </div>
+
                     <span>Cek biaya admin Shopee sesuai variasi produk dan tipe penjual</span>
-                    <a href="https://seller.shopee.co.id/edu/article/3489">di sini</a>
+                    <a href="https://seller.shopee.co.id/edu/article/3489" target="_blank">di sini</a>
                 </div>
 
                 <form name="price-form">
@@ -369,16 +378,21 @@
                 </div>
 
                 <div class="tooltip-text">
-                    <ul>
-                        <li>
-                            <span>Cek biaya admin Tokopedia sesuai variasi produk dan tipe merchant</span>
-                              <a href="https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/">di sini</a>
-                        </li>
-                        <li>
-                            <span>Cek biaya admin gratis ongkir Tokopedia sesuai tipe merchant</span>
-                            <a href="https://www.tokopedia.com/help/article/saya-dikenakan-biaya-layanan-bebas-ongkir-tidak-sesuai">di sini</a>
-                        </li>
-                    </ul>
+                    <div class="close">
+                        <i class="bi bi-x-lg"></i>
+                    </div>
+
+                    <div>
+                        <label>&#x2022;</label>
+                        <span>Cek biaya admin Tokopedia sesuai variasi produk dan tipe merchant</span>
+                        <a href="https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/" target="_blank">di sini</a>
+                    </div>
+
+                    <div>
+                        <label>&#x2022;</label>
+                        <span>Cek biaya admin gratis ongkir Tokopedia sesuai tipe merchant</span>
+                        <a href="https://www.tokopedia.com/help/article/saya-dikenakan-biaya-layanan-bebas-ongkir-tidak-sesuai" target="_blank">di sini</a>
+                    </div>
                 </div>
 
                 <form name="price-form">
@@ -509,8 +523,12 @@
                 </div>
 
                 <div class="tooltip-text">
+                    <div class="close">
+                        <i class="bi bi-x-lg"></i>
+                    </div>
+
                     <span>Sesuai artikel</span>
-                    <a href="https://pintarjualan.id/biaya-admin-tiktok-shop/"> ini</a>
+                    <a href="https://pintarjualan.id/biaya-admin-tiktok-shop/" target="_blank"> ini</a>
                     <span>, biaya admin tiktok shop adalah Rp2000 + 1% dikalikan harga barang</span>
                 </div>
 
@@ -616,12 +634,13 @@
         </div>
         <script>
             $(document).ready(function() {
-                $(".tooltip-icon").on("mouseenter", function () {
-<!--                alert(":p");-->
+                $(".tooltip-icon").on("click", function () {
                     $(".tooltip-text").show();
-                })
-                .on('mouseleave', function(){ $(".tooltip-text").hide(); });
+                });
 
+                $(".close").on('click', function() {
+                    $(".tooltip-text").hide();
+                });
             });
         </script>
     </body>
