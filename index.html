@@ -602,6 +602,11 @@
                                     
                                 for (var i = 1; i < row; i++) {
                                     var price = $("#tiktok-" + i).find("input").val();
+
+                                    if (price == null || price == "") {
+                                        price = 0;
+                                    }
+
                                     var price_after_admin = (parseInt(price) + parseInt(fixed_admin_fee)) / (1 - fixed_admin_fee_percentage);
                                     $("#tiktok-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString());
                                 }
