@@ -191,6 +191,11 @@
                 margin-left: 5px;
             }
 
+            .alert {
+                font-size: 14px;
+                font-weight: bold;
+            }
+
     		@media only screen and (max-device-width: 480px) {
     		    body {
     		        margin: 0;
@@ -287,6 +292,14 @@
 
         <div class="form-section">
             <hr>
+
+            <div class="alert alert-danger" role="alert">
+                <p><i class="bi bi-dot"></i> Pastikan biaya admin yang dimasukkan sudah paling update dari setiap marketplace</p>
+                <p><i class="bi bi-dot"></i> Disarankan untuk membulatkan setiap harga ke atas untuk menghindari perbedaan perhitungan biaya admin marketplace.</p>
+                <p>Contoh :</p>
+                <p>Hasil perhitungan : 151.001</p>
+                <p>Dibulatkan menjadi 151.005 atau 151.050</p>
+            </div>
 
             <div id="shopee" class="form-fill">
                 <img src="https://logodownload.org/wp-content/uploads/2021/03/shopee-logo.png" class="title-marketplace" />
@@ -511,13 +524,13 @@
                                     var upper = price;
                                     var divider = 1;
                                     if (Math.round(price_admin_fee_merchant) > max_admin_fee) {
-                                        upper += max_admin_fee;
+                                        upper = parseInt(upper) + parseInt(max_admin_fee);
                                     } else {
                                         divider -= admin_fee_merchant;
                                     }
 
                                     if (Math.round(price_admin_fee_ongkir) > max_admin_fee) {
-                                        upper += max_admin_fee;
+                                        upper = parseInt(upper) + parseInt(max_admin_fee);
                                     } else {
                                         divider -= admin_fee_ongkir;
                                     }
