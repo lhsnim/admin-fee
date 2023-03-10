@@ -5,12 +5,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>Hitung Biaya Admin</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet" />
-    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
 
         <style>
     		body {
@@ -196,6 +201,10 @@
                 font-weight: bold;
             }
 
+            .modal-marketplace {
+                display: none;
+            }
+
     		@media only screen and (max-device-width: 480px) {
     		    body {
     		        margin: 0;
@@ -228,65 +237,187 @@
     		
             <div class="radio-container">
                 <div class="radio-button-container">
-                    <input type="radio" name="marketplace" value="shopee" />
+                    <input type="radio" name="marketplace" value="shopee" id="shopee-radio" />
                     <label for="shopee">Shopee</label>
                 </div>
 
                 <div class="radio-button-container">
-                    <input type="radio" name="marketplace" value="tokopedia" />
+                    <input type="radio" name="marketplace" value="tokopedia" id="tokopedia-radio" />
                     <label for="tokopedia">Tokopedia</label>
                 </div>
 
                 <div class="radio-button-container">
-                    <input type="radio" name="marketplace" value="tiktok-shop" />
+                    <input type="radio" name="marketplace" value="tiktok-shop" id="tiktok-shop-radio" />
                     <label for="tiktok-shop">Tiktok Shop</label>
                 </div>
             </div>
 
             <button id="submit-marketplace" class="button-submit">Pilih</button>
 
+            <div class="modal" id="modal-marketplace">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><b>Ganti Marketplace?</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-modal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Apakah anda ingin memindahkan harga yang telah ada ke marketplace lain?</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="no-marketplace" data-dismiss="modal">Tidak</button>
+                            <button type="button" class="btn btn-primary" id="yes-marketplace" data-dismiss="modal">Ya</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <script type="text/javascript">
                 $(document).ready(function() {
                     $("#submit-marketplace").click(function(e) {
                         e.preventDefault();
 
+                        var prev_marketplace = getSessionStorage();
                         if ($("input[name$='marketplace']").is(":checked")) {
-                            var marketplace = $("input[name$='marketplace']:checked").val();
-                            $(".form-section").show();
-                            $("div.form-fill").hide();
-                            $('#' + marketplace).show();
-
-                            $('input[name="admin-fee"]').val('');
-                            $('#shopee-1').find("input").val('');
-                            $('#shopee-1').find("label").text('');
-
-                            $('input[name="admin-fee-merchant"]').val('');
-                            $('input[name="admin-fee-ongkir"]').val('');
-                            $('#tokopedia-1').find("input").val('');
-                            $('#tokopedia-1').find("label").text('');
-
-                            $('#tiktok-1').find("input").val('');
-                            $('#tiktok-1').find("label").text('');
-
-                            var shopee_row = $('#shopee-table tr').length;
-                            for (var i = 2; i < shopee_row; i++) {
-                                $("#shopee-" + i).remove();
-                            }
-
-                            var tokped_row = $('#tokopedia-table tr').length;
-                            for (var i = 2; i < tokped_row; i++) {
-                                $("#tokopedia-" + i).remove();
-                            }
-
-                            var tiktok_row = $('#tiktok-table tr').length;
-                            for (var i = 2; i < tiktok_row; i++) {
-                                $("#tiktok-" + i).remove();
+                            var marketplace = getRecentMarketplace();
+                            if (prev_marketplace == null) {
+                                newRow(marketplace);
+                            } else {
+                                if (marketplace != prev_marketplace) {
+                                    var first_row = $('#' + prev_marketplace + "-1").find("input").val();
+                                    if (first_row != '') {
+                                        $('#modal-marketplace').modal();
+                                    } else {
+                                        newRow(marketplace);
+                                    }
+                                }
                             }
                         } else {
                             alert("Silahkan pilih marketplace terlebih dahulu");
                         }   
                     });
+
+                    $("#yes-marketplace").click(function(e) {
+                        var prev_marketplace = getSessionStorage();
+                        var marketplace = getRecentMarketplace();
+
+                        $(".form-section").show();
+                        $("div.form-fill").hide();
+                        $('#' + marketplace).show();
+
+                        var row = $('#' + marketplace + '-table tr').length;
+                        if (row > 1) {
+                            $('#' + marketplace + '-1').remove();
+                        }
+
+                        var prev_row = $('#' + prev_marketplace + '-table tr').length;
+                        for (var i = 1; i < prev_row; i++) {
+                            var price_row = marketplace + "-" + i;
+                            var prev_price = $('#' + prev_marketplace + '-' + i).find("input").val();
+                            var table = '<tr id=' + price_row + '>' +
+                                            '<td style="text-align: center;">' +
+                                                '<button name="remove-price" id="' + marketplace + '-remove-' + price_row + '" class="btn-remove">' +
+                                                    '<i class="bi bi-trash-fill"></i>' +
+                                                '</button>' +
+                                            '</td>' +
+                                            '<td>' +
+                                                '<input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" value=' + prev_price + ' />' +
+                                            '</td>' +
+                                            '<td>' +
+                                                '<label></label>' +
+                                            '</td>' +
+                                        '</tr>'
+                            $('#' + marketplace + '-table').append(table);
+
+                            $('#' + prev_marketplace + '-' + i).remove();
+                        }
+
+                        console.log(row);
+                        setSessionStorage(marketplace);
+                    });
+
+                    $("#no-marketplace").click(function(e) {
+                        var marketplace = getRecentMarketplace();
+                        newRow(marketplace);
+                    });
+
+                    $("#close-modal").click(function(e) {
+                        var prev_marketplace = getSessionStorage();
+                        var marketplace = getRecentMarketplace();
+
+                        $('#' + prev_marketplace + '-radio').prop('checked', true);
+                        $('#' + marketplace + '-radio').prop('checked', false);
+                    });
                 });
+
+                function getSessionStorage() {
+                    var prev_marketplace = sessionStorage.getItem("marketplace");
+                    return prev_marketplace
+                }
+
+                function setSessionStorage(marketplace) {
+                    sessionStorage.setItem("marketplace", marketplace);
+                }
+
+                function getRecentMarketplace() {
+                    var marketplace = $("input[name$='marketplace']:checked").val();
+                    return marketplace;
+                }
+
+                function newRow(marketplace) {
+                    setSessionStorage(marketplace);
+
+                    $(".form-section").show();
+                    $("div.form-fill").hide();
+                    $('#' + marketplace).show();
+
+                    var row = $('#' + marketplace + '-table tr').length;
+                    if (row < 2) {
+                        var table = '<tr id="' + marketplace + '-1">' +
+                                        '<td></td>' +
+                                        '<td>' +
+                                            '<input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />' +
+                                        '</td>' +
+                                        '<td>' +
+                                            '<label></label>' +
+                                        '</td>' +
+                                    '</tr>';
+                        $('#' + marketplace + '-table').append(table);
+                    }
+
+                    $('input[name="admin-fee"]').val('');
+                    $('#shopee-1').find("input").val('');
+                    $('#shopee-1').find("label").text('');
+
+                    $('input[name="admin-fee-merchant"]').val('');
+                    $('input[name="admin-fee-ongkir"]').val('');
+                    $('#tokopedia-1').find("input").val('');
+                    $('#tokopedia-1').find("label").text('');
+
+                    $('#tiktok-shop-1').find("input").val('');
+                    $('#tiktok-shop-1').find("label").text('');
+
+                    var shopee_row = $('#shopee-table tr').length;
+                    if (shopee_row > 2) {
+                        for (var i = 2; i < shopee_row; i++) {
+                           $("#shopee-" + i).remove();
+                        }
+                    }
+
+                    var tokped_row = $('#tokopedia-table tr').length;
+                    if (tokped_row > 2) {
+                        for (var i = 2; i < tokped_row; i++) {
+                            $("#tokopedia-" + i).remove();
+                        }
+                    }
+
+                    var tiktok_row = $('#tiktok-shop-table tr').length;
+                    if (tiktok_row > 2) {
+                        for (var i = 2; i < tiktok_row; i++) {
+                            $("#tiktok-shop-" + i).remove();
+                        }
+                    }
+                }
             </script>
         </div>
 
@@ -337,15 +468,7 @@
                                 <th>Harga</th>
                                 <th>Harga + Admin</th>
                             </tr>
-                            <tr id="shopee-1">
-                                <td></td>
-                                <td>
-                                    <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />
-                                </td>
-                                <td>
-                                    <label></label>
-                                </td>
-                            </tr>
+<!--                            test-->
                         </table>
                     </div>
                 </form>
@@ -464,15 +587,6 @@
                                 <th>Harga</th>
                                 <th>Harga + Admin</th>
                             </tr>
-                            <tr id="tokopedia-1">
-                                <td></td>
-                                <td>
-                                    <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />
-                                </td>
-                                <td>
-                                    <label></label>
-                                </td>
-                            </tr>
                         </table>
                     </div>
                 </form>
@@ -586,21 +700,12 @@
                     </div>
                     
                     <div>
-                        <table class="table table-striped" id="tiktok-table">
+                        <table class="table table-striped" id="tiktok-shop-table">
                             <col width="60px;" />
                             <tr>
                                 <th></th>
                                 <th>Harga</th>
                                 <th>Harga + Admin</th>
-                            </tr>
-                            <tr id="tiktok-1">
-                                <td></td>
-                                <td>
-                                    <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" />
-                                </td>
-                                <td>
-                                    <label></label>
-                                </td>
                             </tr>
                         </table>
                     </div>
@@ -611,11 +716,11 @@
                         $("#tiktok-add-price").click(function(e) {
                             e.preventDefault();
 
-                            var row = $('#tiktok-table tr').length;
-                            var price_row = "tiktok-" + row;
+                            var row = $('#tiktok-shop-table tr').length;
+                            var price_row = "tiktok-shop-" + row;
                             var table = '<tr id=' + price_row + '>' +
                                             '<td style="text-align: center;">' +
-                                                '<button name="remove-price" id="tiktok-remove-' + price_row + '" class="btn-remove">' +
+                                                '<button name="remove-price" id="tiktok-shop-remove-' + price_row + '" class="btn-remove">' +
                                                     '<i class="bi bi-trash-fill"></i>' +
                                                 '</button>' +
                                             '</td>' +
@@ -626,12 +731,12 @@
                                                 '<label></label>' +
                                             '</td>' +
                                         '</tr>'
-                            $('#tiktok-table').append(table);
+                            $('#tiktok-shop-table').append(table);
                         });
 
                         $('body').on('click', '.btn-remove', function(){
                             var id = $(this).attr("id");
-                            var split = id.split("tiktok-remove-");
+                            var split = id.split("tiktok-shop-remove-");
                             var price_id = split[1];
                             $('#' + price_id).remove();
                         });
@@ -639,19 +744,19 @@
                         $('#btn-tiktok').click(function() {
                             $('form[name="price-form"]').on('submit', function (e) {
                                 e.preventDefault();
-                                var row = $('#tiktok-table tr').length;
+                                var row = $('#tiktok-shop-table tr').length;
                                 var fixed_admin_fee = 2000;
                                 var fixed_admin_fee_percentage = 1 / 100;
                                     
                                 for (var i = 1; i < row; i++) {
-                                    var price = $("#tiktok-" + i).find("input").val();
+                                    var price = $("#tiktok-shop-" + i).find("input").val();
 
                                     if (price == null || price == "") {
                                         price = 0;
                                     }
 
                                     var price_after_admin = (parseInt(price) + parseInt(fixed_admin_fee)) / (1 - fixed_admin_fee_percentage);
-                                    $("#tiktok-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString());
+                                    $("#tiktok-shop-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString());
                                 }
                             });
                         });
@@ -659,12 +764,12 @@
                         $('#tiktok-reset').click(function(e) {
                             e.preventDefault();
 
-                            $('#tiktok-1').find("input").val('');
-                            $('#tiktok-1').find("label").text('');
+                            $('#tiktok-shop-1').find("input").val('');
+                            $('#tiktok-shop-1').find("label").text('');
 
-                            var row = $('#tiktok-table tr').length;
+                            var row = $('#tiktok-shop-table tr').length;
                             for (var i = 2; i < row; i++) {
-                                $("#tiktok-" + i).remove();
+                                $("#tiktok-shop-" + i).remove();
                             }
                         });
                    });
@@ -688,6 +793,10 @@
 
                 $(".close").on('click', function() {
                     $(".tooltip-text").hide();
+                });
+
+                $(window).on('load', function() {
+                    sessionStorage.clear();
                 });
             });
         </script>
