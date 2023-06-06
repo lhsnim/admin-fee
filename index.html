@@ -201,7 +201,12 @@
                 border: 2px solid rgb(212, 212, 212);
     			border-radius: 5px;
     			margin: auto;
-                width: fit-content;
+                width: 700px;
+            }
+            .grid {
+               display: grid;
+               gap: 20px;
+               grid-auto-flow: column;
             }
 
     		@media only screen and (max-device-width: 480px) {
@@ -227,6 +232,7 @@
 
     		    .promote {
     		        margin-bottom: 20px;
+    		        width: fit-content;
                 }
             }
         </style>
@@ -582,19 +588,20 @@
                         <i class="bi bi-x-lg"></i>
                     </div>
 
-                    <span>Sesuai artikel</span>
-                    <a href="https://pintarjualan.id/biaya-admin-tiktok-shop/" target="_blank"> ini</a>
-                    <span>, biaya admin tiktok shop adalah Rp2000 + 1% dikalikan harga barang</span>
+                    <span>Lihat pembagian besaran biaya admin sesuai variasi produk di </span>
+                    <a href="https://seller-id.tiktok.com/university/essay?knowledge_id=5411650459305729&role=1&from=feature_guide&identity=1" target="_blank">sini</a>
                 </div>
 
                 <form name="price-form">
                     <div>
+                        <label>Biaya Admin (%)</label>
+                        <input type="number" placeholder="Biaya Admin" step="0.1" min="0" class="input-form" name="admin-fee-tiktok" />
                         <button type="submit" class="button-submit" id="btn-tiktok">Hitung</button>
+                    </div>
 
-                        <div class="button-container">
-                            <button name="add-price" id="tiktok-add-price" class="button-submit">Tambah Harga</button>
-                            <button name="reset" id="tiktok-reset" class="button-remove">Reset</button>
-                        </div>
+                    <div class="button-container">
+                        <button name="add-price" id="tiktok-add-price" class="button-submit">Tambah Harga</button>
+                        <button name="reset" id="tiktok-reset" class="button-remove">Reset</button>
                     </div>
                     
                     <div>
@@ -652,17 +659,13 @@
                             $('form[name="price-form"]').on('submit', function (e) {
                                 e.preventDefault();
                                 var row = $('#tiktok-table tr').length;
-                                var fixed_admin_fee = 2000;
-                                var fixed_admin_fee_percentage = 1 / 100;
-                                    
+                                var admin_fee = $('input[name="admin-fee-tiktok"]').val();
+
                                 for (var i = 1; i < row; i++) {
                                     var price = $("#tiktok-" + i).find("input").val();
 
-                                    if (price == null || price == "") {
-                                        price = 0;
-                                    }
-
-                                    var price_after_admin = (parseInt(price) + parseInt(fixed_admin_fee)) / (1 - fixed_admin_fee_percentage);
+                                    var admin = 1 - (admin_fee / 100);
+                                    var price_after_admin = price / admin;
                                     $("#tiktok-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString());
                                 }
                             });
@@ -690,9 +693,29 @@
                 <b style="margin-left:10px">PROMOTE</b>
             </h4>
 
-            <ul>
-                <li><b>open paid promote fee 5k untuk 2 minggu iklan di section ini. dm <a href="https://twitter.com/leeheeseungnim">@leeheeseungnim</a></li>
-            </ul>
+            <div class="grid">
+                <div>
+                    <img src="https://pbs.twimg.com/media/FxnHMQ2aMAQkO3v?format=jpg&name=large" width="70" id="promote-image"/>
+                </div>
+
+                <div>
+                    <b>Open jastip event p-land vol. 2 (8-9 juli 2023) fee jastip 3k-10k aja. Dom bekasi dm
+                        <a href="https://twitter.com/upiwoopy">@upiwoopy</a>
+                    </b>
+                </div>
+
+                <script>
+                 $(document).ready(function() {
+                    $('#promote-image').mouseover(function () {
+                        $(this).animate({width: "250px"}, 'slow');
+                    });
+
+                    $('#promote-image').mouseout(function () {
+                        $(this).animate({ width: "70px"}, 'slow');
+                    });
+                });
+                </script>
+            </div>
         </div>
         <br/>
 
