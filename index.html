@@ -197,6 +197,14 @@
                 font-weight: bold;
             }
 
+            .new-line {
+                margin-bottom: 15px;
+            }
+
+            .info-text {
+                font-size: 11px;
+            }
+
     		@media only screen and (max-device-width: 480px) {
     		    body {
     		        margin: 0;
@@ -285,7 +293,7 @@
                             }
                         } else {
                             alert("Silahkan pilih marketplace terlebih dahulu");
-                        }   
+                        }
                     });
                 });
             </script>
@@ -305,23 +313,29 @@
             <div id="shopee" class="form-fill">
                 <img src="https://logodownload.org/wp-content/uploads/2021/03/shopee-logo.png" class="title-marketplace" />
 
-                <div class="tooltip-icon">
-                    <i class="bi bi-info-circle"></i>
-                </div>
-
-                <div class="tooltip-text">
-                    <div class="close">
-                        <i class="bi bi-x-lg"></i>
-                    </div>
-
-                    <span>Cek biaya admin Shopee sesuai variasi produk dan tipe penjual</span>
-                    <a href="https://seller.shopee.co.id/edu/article/3489" target="_blank">di sini</a>
-                </div>
-
                 <form name="price-form">
                     <div>
-                        <label>Biaya Admin (%)</label>
-                        <input type="number" placeholder="Biaya Admin" step="0.1" min="0" class="input-form" name="admin-fee" />
+                        <div class="new-line">
+                            <label>Biaya Admin (%)</label></br>
+                            <p class="info-text">Besaran biaya admin dapat dilihat di <a href="https://seller.shopee.co.id/edu/article/3489" target="_blank">Pusat Edukasi Penjual</a></p>
+                            <p class="info-text" style="color:red">PERHATIAN : Besaran biaya admin yang dimasukkan di kolom ini <b>tidak termasuk</b> persen biaya layanan gratis ongkir XTRA dan cashback XTRA</p>
+                            <input type="number" placeholder="Biaya Admin" step="0.1" min="0" class="input-form" name="admin-fee" />
+                        </div>
+
+                        <div class="new-line">
+                            <label style="margin-right:50px">Gratis Ongkir XTRA</label></td>
+                            <input type="checkbox" id="gratong-xtra" name="gratong-xtra" />
+                            <label for="gratong-xtra">Ya</label>
+                            <p class="info-text">Besaran biaya layanan Gratis Ongkir XTRA sesuai ketentuan adalah 4%</p>
+                        </div>
+
+                        <div>
+                            <label style="margin-right:80px">Cashback XTRA</label>
+                            <input type="checkbox" id="cashback-xtra" name="cashback-xtra" />
+                            <label for="cashback-xtra">Ya</label>
+                            <p class="info-text">Besaran biaya layanan Cashback XTRA sesuai ketentuan adalah 1,4%</p>
+                        </div>
+
                         <button type="submit" class="button-submit" id="btn-shopee">Hitung</button>
                     </div>
 
@@ -387,13 +401,39 @@
                                 e.preventDefault();
                                 var admin_fee = $('input[name="admin-fee"]').val();
                                 var row = $('#shopee-table tr').length;
-                                    
+                                var max_admin_fee = 10000;
+                                var service_fee_gratong_xtra = 0.04; <!-- 4 / 100 -->
+                                var service_fee_cashback_xtra = 0.014; <!-- 1.4 / 100 -->
+
                                 for (var i = 1; i < row; i++) {
                                     var price = $("#shopee-" + i).find("input").val();
+                                    var upper = price;
+                                    var divider = 1 - (admin_fee / 100);
 
-                                    var admin = 1 - (admin_fee / 100);
-                                    var price_after_admin = price / admin;
-                                    $("#shopee-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString());
+                                    if ($('#gratong-xtra').is(':checked')) {
+                                        var price_service_fee_gratong_xtra = price * service_fee_gratong_xtra;
+                                        console.log(price_service_fee_gratong_xtra);
+
+                                        if (Math.round(price_service_fee_gratong_xtra) > max_admin_fee) {
+                                            upper = parseInt(upper) + parseInt(max_admin_fee);
+                                        } else {
+                                            divider -= service_fee_gratong_xtra;
+                                        }
+                                    }
+
+                                    if ($('#cashback-xtra').is(':checked')) {
+                                        var price_service_fee_cashback_xtra = price * service_fee_cashback_xtra;
+                                        console.log(price_service_fee_cashback_xtra);
+
+                                        if (Math.round(price_service_fee_cashback_xtra) > max_admin_fee) {
+                                            upper = parseInt(upper) + parseInt(max_admin_fee);
+                                        } else {
+                                            divider -= service_fee_cashback_xtra;
+                                        }
+                                    }
+
+                                    var price_after_admin = upper / divider;
+                                    $("#shopee-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString())
                                 }
                             });
                         });
@@ -444,7 +484,7 @@
                         <label>Biaya Admin Merchant (%)</b></label>
                         <input type="number" placeholder="Biaya Admin Merchant" step="0.1" min="0" class="input-form" name="admin-fee-merchant"/>
 
-                        <div style="margin-bottom:15px"></div>
+                        <div class="new-line"></div>
 
                         <label>Biaya Admin Gratis Ongkir (%)</label>
                         <input type="number" placeholder="Biaya Admin Gratis Ongkir" step="0.1" min="0" class="input-form" name="admin-fee-ongkir"/>
