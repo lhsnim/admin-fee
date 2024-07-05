@@ -6,7 +6,7 @@
 
         <title>Hitung Biaya Admin</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet" />
@@ -208,6 +208,22 @@
             .info-lbl {
                 font-size: 12px;
                 margin-bottom: 0px;
+            }
+
+            .btn-copy {
+                border: none;
+                background: none;
+                cursor: pointer;
+    			margin-left: 5px;
+    			color: #686868;
+    			font-size: 15px;
+    			padding: 5px;
+    		}
+
+    		.btn-copy:active {
+                transform: scale(0.98);
+                padding: 5px;
+                box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
             }
 
     		@media only screen and (max-device-width: 480px) {
@@ -438,9 +454,7 @@
 
                                     var price_service_fee_gratong_xtra = 0;
                                     if ($('#gratong-xtra-cb').is(':checked')) {
-                                        var price_service_fee_gratong_xtra = price * service_fee_gratong_xtra;
-                                        console.log(price_service_fee_gratong_xtra);
-
+                                        price_service_fee_gratong_xtra = price * service_fee_gratong_xtra;
                                         if (Math.round(price_service_fee_gratong_xtra) > max_admin_fee) {
                                             upper = parseInt(upper) + parseInt(max_admin_fee);
                                         } else {
@@ -460,7 +474,10 @@
 
                                     var price_after_admin = upper / divider;
                                     var price_result = Math.ceil(price_after_admin);
-                                    $("#shopee-" + i).find(".shp-result").text(price_result.toLocaleString());
+                                    var price_print = '<label>' + price_result.toLocaleString() + '</label>';
+                                    price_print += '<button class="btn-copy" id="shopee-copy-' + i + '"><i class="bi bi-copy"></i></button><br/>'
+                                    price_print += '<label class="hidden-lbl" style="display:none">' + price_result + '</label>';
+                                    $("#shopee-" + i).find(".shp-result").html(price_print);
 
                                     var adm_fee =  Math.round(price_result * (admin_fee / 100));
                                     var info = '<p class="info-lbl">Harga : ' + price_result.toLocaleString() + '</p>';
@@ -508,6 +525,19 @@
                                 $("#shopee-" + i).remove();
                             }
                         });
+
+                        $('body').on('click', '.btn-copy', function(){
+                            var id = $(this).attr("id");
+                            var split = id.split("shopee-copy-");
+                            var price_id = split[1];
+                            var price = $("#shopee-" + price_id).find(".hidden-lbl").text();
+                            var tempTextarea = $('<textarea>');
+                            $('body').append(tempTextarea);
+                            tempTextarea.val(price).select();
+                            document.execCommand('copy');
+                            tempTextarea.remove();
+                        });
+
                     });
 
                     function isGratongXtra() {
