@@ -6,7 +6,7 @@
 
         <title>Hitung Biaya Admin</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet" />
@@ -192,9 +192,39 @@
                 margin-left: 5px;
             }
 
-            .alert {
-                font-size: 14px;
+            .alert p {
+                font-size: 13px;
                 font-weight: bold;
+                margin-bottom: 3px;
+            }
+
+            .new-line {
+                margin-bottom: 15px;
+            }
+
+            .info-text {
+                font-size: 11px;
+            }
+
+            .info-lbl {
+                font-size: 12px;
+                margin-bottom: 0px;
+            }
+
+            .btn-copy {
+                border: none;
+                background: none;
+                cursor: pointer;
+    			margin-left: 5px;
+    			color: #686868;
+    			font-size: 15px;
+    			padding: 5px;
+    		}
+
+    		.btn-copy:active {
+                transform: scale(0.98);
+                padding: 5px;
+                box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
             }
 
     		@media only screen and (max-device-width: 480px) {
@@ -260,6 +290,11 @@
                             $('input[name="admin-fee"]').val('');
                             $('#shopee-1').find("input").val('');
                             $('#shopee-1').find("label").text('');
+                            $('input:checkbox:checked').prop('checked', false);
+                            $('input[name="gratong-xtra"]').val('');
+                            $('#gratong-xtra-true').hide();
+                            $('input[name="cashback-xtra"]').val('');
+                            $('#cashback-xtra-true').hide();
 
                             $('input[name="admin-fee-merchant"]').val('');
                             $('input[name="admin-fee-ongkir"]').val('');
@@ -285,7 +320,7 @@
                             }
                         } else {
                             alert("Silahkan pilih marketplace terlebih dahulu");
-                        }   
+                        }
                     });
                 });
             </script>
@@ -295,33 +330,51 @@
             <hr>
 
             <div class="alert alert-danger" role="alert">
-                <p><i class="bi bi-dot"></i> Pastikan biaya admin yang dimasukkan sudah paling update dari setiap marketplace</p>
-                <p><i class="bi bi-dot"></i> Disarankan untuk membulatkan setiap harga ke atas untuk menghindari perbedaan perhitungan biaya admin marketplace.</p>
+                <h4<b>PERHATIAN</b></h4>
+                <p><i class="bi bi-dot"></i> Pastikan biaya admin yang diinput sudah paling update dari setiap marketplace.</p>
+                <p><i class="bi bi-dot"></i> Pastikan biaya admin yang diinput sudah sesuai dengan variasi produk.</p>
+                <p><i class="bi bi-dot"></i> Cek kembali harga yang akan diinput. Jangan sampai ada angka yang salah input, dikarenakan potongan biaya admin akan ikut berubah.</p>
+                <p><i class="bi bi-dot"></i> Disarankan untuk membulatkan setiap harga <b>KE ATAS</b> untuk menghindari perbedaan perhitungan biaya admin marketplace.</p>
                 <p>Contoh :</p>
-                <p>Hasil perhitungan : 151.001</p>
-                <p>Dibulatkan menjadi 151.005 atau 151.050</p>
+                <p>Hasil perhitungan : 151001</p>
+                <p>Dibulatkan <b>KE ATAS</b> menjadi 151050 atau 151100</p>
             </div>
 
             <div id="shopee" class="form-fill">
                 <img src="https://logodownload.org/wp-content/uploads/2021/03/shopee-logo.png" class="title-marketplace" />
 
-                <div class="tooltip-icon">
-                    <i class="bi bi-info-circle"></i>
-                </div>
-
-                <div class="tooltip-text">
-                    <div class="close">
-                        <i class="bi bi-x-lg"></i>
-                    </div>
-
-                    <span>Cek biaya admin Shopee sesuai variasi produk dan tipe penjual</span>
-                    <a href="https://seller.shopee.co.id/edu/article/3489" target="_blank">di sini</a>
-                </div>
-
                 <form name="price-form">
                     <div>
-                        <label>Biaya Admin (%)</label>
-                        <input type="number" placeholder="Biaya Admin" step="0.1" min="0" class="input-form" name="admin-fee" />
+                        <div class="new-line">
+                            <label>Biaya Administrasi (%)</label></br>
+                            <p class="info-text">Besaran biaya administrasi, biaya layanan Gratis Ongkir XTRA dan biaya layanan Cashback XTRA dapat dilihat di <a href="https://seller.shopee.co.id/edu/article/3489" target="_blank">Pusat Edukasi Penjual</a></p>
+                            <p class="info-text" style="color:red">PERHATIAN : Besaran biaya administrasi yang dimasukkan di kolom ini <b>tidak termasuk</b> persen biaya layanan gratis ongkir XTRA dan cashback XTRA</p>
+                            <input type="number" placeholder="Biaya Administrasi" step="0.1" min="0" class="input-form" name="admin-fee" />
+                        </div>
+
+
+                        <div class="new-line">
+                            <label style="margin-right:50px">Gratis Ongkir XTRA</label>
+                            <input type="checkbox" id="gratong-xtra-cb" name="gratong-xtra-cb" onchange="isGratongXtra()"/>
+                            <label for="gratong-xtra-cb">Ya</label>
+
+                            <div id="gratong-xtra-true">
+                                <label style="font-size:14px">Biaya Layanan Gratis Ongkir XTRA (%)</label></br>
+                                <input type="number" placeholder="Biaya Layanan Gratis Ongkir XTRA" step="0.1" min="0" class="input-form" name="gratong-xtra" />
+                            </div>
+                        </div>
+
+                        <div class="new-line">
+                            <label style="margin-right:50px">Cashback XTRA</label>
+                            <input type="checkbox" id="cashback-xtra-cb" name="cashback-xtra-cb" onchange="isCashbackXtra()"/>
+                            <label for="cashback-xtra-cb">Ya</label>
+
+                            <div id="cashback-xtra-true">
+                                <label style="font-size:14px">Biaya Layanan Cashback XTRA (%)</label>
+                                <input type="number" placeholder="Biaya Layanan Cashback XTRA" step="0.1" min="0" class="input-form" name="cashback-xtra" />
+                            </div>
+                        </div>
+
                         <button type="submit" class="button-submit" id="btn-shopee">Hitung</button>
                     </div>
 
@@ -337,6 +390,7 @@
                                 <th></th>
                                 <th>Harga</th>
                                 <th>Harga + Admin</th>
+                                <th class="shp-info">Rincian Perhitungan</th>
                             </tr>
                             <tr id="shopee-1">
                                 <td></td>
@@ -344,7 +398,10 @@
                                     <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" />
                                 </td>
                                 <td>
-                                    <label></label>
+                                    <label class="shp-result"></label>
+                                </td>
+                                <td>
+                                    <label class="shp-info"></label>
                                 </td>
                             </tr>
                         </table>
@@ -368,7 +425,10 @@
                                                 '<input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" />' +
                                             '</td>' +
                                             '<td>' +
-                                                '<label></label>' +
+                                                '<label class="shp-result"></label>' +
+                                            '</td>' +
+                                            '<td>' +
+                                                '<label class="shp-info"></label>' +
                                             '</td>' +
                                         '</tr>'
                             $('#shopee-table').append(table);
@@ -387,13 +447,67 @@
                                 e.preventDefault();
                                 var admin_fee = $('input[name="admin-fee"]').val();
                                 var row = $('#shopee-table tr').length;
-                                    
+                                var max_admin_fee = 10000;
+                                var service_fee_gratong_xtra = $('input[name="gratong-xtra"]').val() / 100;
+                                var service_fee_cashback_xtra = $('input[name="cashback-xtra"]').val() / 100;
+
                                 for (var i = 1; i < row; i++) {
                                     var price = $("#shopee-" + i).find("input").val();
+                                    var upper = price;
+                                    var divider = 1 - (admin_fee / 100);
 
-                                    var admin = 1 - (admin_fee / 100);
-                                    var price_after_admin = price / admin;
-                                    $("#shopee-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString());
+                                    var price_service_fee_gratong_xtra = 0;
+                                    if ($('#gratong-xtra-cb').is(':checked')) {
+                                        price_service_fee_gratong_xtra = price * service_fee_gratong_xtra;
+                                        if (Math.round(price_service_fee_gratong_xtra) > max_admin_fee) {
+                                            upper = parseInt(upper) + parseInt(max_admin_fee);
+                                        } else {
+                                            divider -= service_fee_gratong_xtra;
+                                        }
+                                    }
+
+                                    var price_service_fee_cashback_xtra = 0;
+                                    if ($('#cashback-xtra-cb').is(':checked')) {
+                                        price_service_fee_cashback_xtra = price * service_fee_cashback_xtra;
+                                        if (Math.round(price_service_fee_cashback_xtra) > max_admin_fee) {
+                                            upper = parseInt(upper) + parseInt(max_admin_fee);
+                                        } else {
+                                            divider -= service_fee_cashback_xtra;
+                                        }
+                                    }
+
+                                    var price_after_admin = upper / divider;
+                                    var price_result = Math.ceil(price_after_admin);
+                                    var price_print = '<label>' + price_result.toLocaleString() + '</label>';
+                                    price_print += '<button class="btn-copy" id="shopee-copy-' + i + '"><i class="bi bi-copy"></i></button><br/>'
+                                    price_print += '<label class="hidden-lbl" style="display:none">' + price_result + '</label>';
+                                    $("#shopee-" + i).find(".shp-result").html(price_print);
+
+                                    var adm_fee =  Math.round(price_result * (admin_fee / 100));
+                                    var info = '<p class="info-lbl">Harga : ' + price_result.toLocaleString() + '</p>';
+                                    info += '<p class="info-lbl">Biaya Administrasi : ' + adm_fee.toLocaleString() + '</p>';
+
+                                    var svc_fee_ge =  Math.round(price_result * service_fee_gratong_xtra);
+                                    if ($('#gratong-xtra-cb').is(':checked')) {
+                                        var svc_fee_ge =  Math.round(price_result * service_fee_gratong_xtra);
+                                        if (svc_fee_ge > max_admin_fee) {
+                                            svc_fee_ge = max_admin_fee;
+                                        }
+
+                                        info += '<p class="info-lbl">Biaya Layanan (Gratong XTRA) : ' + svc_fee_ge.toLocaleString() + '</p>';
+                                    }
+
+                                    var svc_fee_ce =  Math.round(price_result * service_fee_cashback_xtra);
+                                    if ($('#cashback-xtra-cb').is(':checked')) {
+                                        if (svc_fee_ce > max_admin_fee) {
+                                            svc_fee_ce = max_admin_fee;
+                                        }
+
+                                        info += '<p class="info-lbl">Biaya Layanan (Cashback XTRA) : ' + svc_fee_ce.toLocaleString() + '</p>';
+                                    }
+
+                                    info += '<p class="info-lbl">Penghasilan : ' + (price_result - adm_fee - svc_fee_ge - svc_fee_ce).toLocaleString() + '</p>';
+                                    $("#shopee-" + i).find(".shp-info").html(info);
                                 }
                             });
                         });
@@ -402,6 +516,11 @@
                             e.preventDefault();
 
                             $('input[name="admin-fee"]').val('');
+                            $('input[name="gratong-xtra"]').val('');
+                            $('input[name="cashback-xtra"]').val('');
+                            $("#gratong-xtra-true").hide();
+                            $("#cashback-xtra-true").hide();
+                            $('input:checkbox:checked').prop('checked', false);
                             $('#shopee-1').find("input").val('');
                             $('#shopee-1').find("label").text('');
 
@@ -410,7 +529,38 @@
                                 $("#shopee-" + i).remove();
                             }
                         });
+
+                        $('body').on('click', '.btn-copy', function(){
+                            var id = $(this).attr("id");
+                            var split = id.split("shopee-copy-");
+                            var price_id = split[1];
+                            var price = $("#shopee-" + price_id).find(".hidden-lbl").text();
+                            var tempTextarea = $('<textarea>');
+                            $('body').append(tempTextarea);
+                            tempTextarea.val(price).select();
+                            document.execCommand('copy');
+                            tempTextarea.remove();
+                        });
+
                     });
+
+                    function isGratongXtra() {
+                        if ($('#gratong-xtra-cb').is(':checked')) {
+                            $("#gratong-xtra-true").show();
+                        } else {
+                            $('input[name="gratong-xtra"]').val('');
+                            $('#gratong-xtra-true').hide();
+                        }
+                    }
+
+                    function isCashbackXtra() {
+                        if ($('#cashback-xtra-cb').is(':checked')) {
+                            $("#cashback-xtra-true").show();
+                        } else {
+                            $('input[name="cashback-xtra"]').val('');
+                            $('#cashback-xtra-true').hide();
+                        }
+                    }
                 </script>
             </div>
             
@@ -444,7 +594,7 @@
                         <label>Biaya Admin Merchant (%)</b></label>
                         <input type="number" placeholder="Biaya Admin Merchant" step="0.1" min="0" class="input-form" name="admin-fee-merchant"/>
 
-                        <div style="margin-bottom:15px"></div>
+                        <div class="new-line"></div>
 
                         <label>Biaya Admin Gratis Ongkir (%)</label>
                         <input type="number" placeholder="Biaya Admin Gratis Ongkir" step="0.1" min="0" class="input-form" name="admin-fee-ongkir"/>
@@ -674,7 +824,7 @@
         <div class="footer">
             <label>Dibuat oleh lhsnimarchive & geniustangerine</label>
             <br/>
-            <label>Jika ada pertanyaan, kritik atau saran silahkan DM ke X <a href="https://x.com/lhsnimarchive">@lhsnimarchive</label>
+            <label>Jika ada pertanyaan, kritik atau saran silahkan DM ke X <a href="https://x.com/lhsnimarchive" />@lhsnimarchive</label>
         </div>
         <script>
             $(document).ready(function() {
