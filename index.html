@@ -352,7 +352,6 @@
                             <input type="number" placeholder="Biaya Administrasi" step="0.1" min="0" class="input-form" name="admin-fee" />
                         </div>
 
-
                         <div class="new-line">
                             <label style="margin-right:50px">Gratis Ongkir XTRA</label>
                             <input type="checkbox" id="gratong-xtra-cb" name="gratong-xtra-cb" onchange="isGratongXtra()"/>
@@ -567,38 +566,18 @@
             <div id="tokopedia" class="form-fill">
                 <img src="https://www.freepnglogos.com/uploads/logo-tokopedia-png/tokopedia-apa-itu-startup-pengertian-cara-memulai-dan-1.png" class="title-marketplace" />
 
-                <div class="tooltip-icon">
-                    <i class="bi bi-info-circle"></i>
-                </div>
-
-                <div class="tooltip-text">
-                    <div class="close">
-                        <i class="bi bi-x-lg"></i>
-                    </div>
-
-                    <div>
-                        <label>&#x2022;</label>
-                        <span>Cek biaya admin Tokopedia sesuai variasi produk dan tipe merchant</span>
-                        <a href="https://seller.tokopedia.com/edu/biaya-layanan-tokopedia/" target="_blank">di sini</a>
-                    </div>
-
-                    <div>
-                        <label>&#x2022;</label>
-                        <span>Cek biaya admin gratis ongkir Tokopedia sesuai tipe merchant</span>
-                        <a href="https://www.tokopedia.com/help/article/saya-dikenakan-biaya-layanan-bebas-ongkir-tidak-sesuai" target="_blank">di sini</a>
-                    </div>
-                </div>
-
                 <form name="price-form">
                     <div>
-                        <label>Biaya Admin Merchant (%)</b></label>
-                        <input type="number" placeholder="Biaya Admin Merchant" step="0.1" min="0" class="input-form" name="admin-fee-merchant"/>
+                        <div class="new-line">
+                            <label>Biaya Layanan Merchant (%)</b></label>
+                            <p class="info-text">Besaran biaya layanan merchant dan biaya layanan bebas ongkir dapat dilihat di <a href="https://seller.tokopedia.com/edu/skema-keanggotaan-seller-tokopedia/" target="_blank">Pusat Edukasi Seller Tokopedia</a></p>
+                            <input type="number" placeholder="Biaya Layanan Merchant" step="0.01" min="0" class="input-form" name="admin-fee-merchant"/>
+                        </div>
 
-                        <div class="new-line"></div>
-
-                        <label>Biaya Admin Gratis Ongkir (%)</label>
-                        <input type="number" placeholder="Biaya Admin Gratis Ongkir" step="0.1" min="0" class="input-form" name="admin-fee-ongkir"/>
-
+                        <div class="new-line">
+                            <label>Biaya Layanan Bebas Ongkir (%)</label>
+                            <input type="number" placeholder="Biaya Admin Gratis Ongkir" step="0.01" min="0" class="input-form" name="admin-fee-ongkir"/>
+                        </div>
                         <button type="submit" class="button-submit" id="btn-tokopedia">Hitung</button>
                     </div>
 
@@ -614,6 +593,7 @@
                                 <th></th>
                                 <th>Harga</th>
                                 <th>Harga + Admin</th>
+                                <th class="tokped-info">Rincian Perhitungan</th>
                             </tr>
                             <tr id="tokopedia-1">
                                 <td></td>
@@ -621,7 +601,10 @@
                                     <input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" />
                                 </td>
                                 <td>
-                                    <label></label>
+                                    <label class="tokped-result"></label>
+                                </td>
+                                <td>
+                                    <label class="tokped-info"></label>
                                 </td>
                             </tr>
                         </table>
@@ -645,8 +628,11 @@
                                                 '<input type="number" placeholder="Harga Barang" step="1" min="0" class="input-form" onkeypress="return /[0-9a-zA-Z]/i.test(event.key)" />' +
                                             '</td>' +
                                             '<td>' +
-                                                '<label></label>' +
+                                                '<label class="tokped-result"></label>' +
                                             '</td>' +
+                                            '<td>'  +
+                                                '<label class="tokped-info"></label>' +
+                                            '</td>'
                                         '</tr>'
                             $('#tokopedia-table').append(table);
                         });
@@ -668,18 +654,10 @@
                                 var row = $('#tokopedia-table tr').length;    
                                 for (var i = 1; i < row; i++) {
                                     var price = $("#tokopedia-" + i).find("input").val();
-
-                                    var price_admin_fee_merchant = price * admin_fee_merchant;
-                                    var price_admin_fee_ongkir = price * admin_fee_ongkir;
-
                                     var upper = price;
-                                    var divider = 1;
-                                    if (Math.round(price_admin_fee_merchant) > max_admin_fee) {
-                                        upper = parseInt(upper) + parseInt(max_admin_fee);
-                                    } else {
-                                        divider -= admin_fee_merchant;
-                                    }
+                                    var divider = 1 - admin_fee_merchant;
 
+                                    var price_admin_fee_ongkir = price * admin_fee_ongkir;
                                     if (Math.round(price_admin_fee_ongkir) > max_admin_fee) {
                                         upper = parseInt(upper) + parseInt(max_admin_fee);
                                     } else {
@@ -687,7 +665,23 @@
                                     }
 
                                     var price_after_admin = upper / divider;
-                                    $("#tokopedia-" + i).find("label").text(Math.ceil(price_after_admin).toLocaleString());
+                                    var price_result = Math.ceil(price_after_admin);
+                                    var price_print = '<label>' + price_result.toLocaleString() + '</label>';
+                                    price_print += '<button class="btn-copy" id="tokped-copy-' + i + '"><i class="bi bi-copy"></i></button><br/>'
+                                    price_print += '<label class="hidden-lbl" style="display:none">' + price_result + '</label>';
+                                    $("#tokopedia-" + i).find(".tokped-result").html(price_print);
+
+                                    var adm_fee =  Math.round(price_result * admin_fee_merchant);
+                                    var info = '<p class="info-lbl">Harga : ' + price_result.toLocaleString() + '</p>';
+                                    info += '<p class="info-lbl">Biaya Layanan Merchant : ' + adm_fee.toLocaleString() + '</p>';
+
+                                    var svc_fee_bo =  Math.round(price_result * admin_fee_ongkir);
+                                    if (svc_fee_bo > max_admin_fee) {
+                                        svc_fee_bo = max_admin_fee;
+                                    }
+                                    info += '<p class="info-lbl">Biaya Layanan Bebas Ongkir : ' + svc_fee_bo.toLocaleString() + '</p>';
+                                    info += '<p class="info-lbl">Penghasilan : ' + (price_result - adm_fee - svc_fee_bo).toLocaleString() + '</p>';
+                                    $("#tokopedia-" + i).find(".tokped-info").html(info);
                                 }
                             });
                         });
@@ -704,6 +698,18 @@
                             for (var i = 2; i < row; i++) {
                                 $("#tokopedia-" + i).remove();
                             }
+                        });
+
+                        $('body').on('click', '.btn-copy', function(){
+                            var id = $(this).attr("id");
+                            var split = id.split("tokped-copy-");
+                            var price_id = split[1];
+                            var price = $("#tokopedia-" + price_id).find(".hidden-lbl").text();
+                            var tempTextarea = $('<textarea>');
+                            $('body').append(tempTextarea);
+                            tempTextarea.val(price).select();
+                            document.execCommand('copy');
+                            tempTextarea.remove();
                         });
                     });
                 </script>
