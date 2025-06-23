@@ -340,6 +340,7 @@
                 <p>Dibulatkan <b>KE ATAS</b> menjadi 151050 atau 151100</p>
             </div>
 
+<!--            SHOPEE SECTION -->
             <div id="shopee" class="form-fill">
                 <img src="https://logodownload.org/wp-content/uploads/2021/03/shopee-logo.png" class="title-marketplace" />
 
@@ -447,6 +448,7 @@
                                 var admin_fee = $('input[name="admin-fee"]').val();
                                 var row = $('#shopee-table tr').length;
                                 var max_admin_fee = 10000;
+                                var max_gratong_admin_fee = 20000;
                                 var service_fee_gratong_xtra = $('input[name="gratong-xtra"]').val() / 100;
                                 var service_fee_cashback_xtra = $('input[name="cashback-xtra"]').val() / 100;
 
@@ -458,8 +460,8 @@
                                     var price_service_fee_gratong_xtra = 0;
                                     if ($('#gratong-xtra-cb').is(':checked')) {
                                         price_service_fee_gratong_xtra = price * service_fee_gratong_xtra;
-                                        if (Math.round(price_service_fee_gratong_xtra) > max_admin_fee) {
-                                            upper = parseInt(upper) + parseInt(max_admin_fee);
+                                        if (Math.round(price_service_fee_gratong_xtra) > max_gratong_admin_fee) {
+                                            upper = parseInt(upper) + parseInt(max_gratong_admin_fee);
                                         } else {
                                             divider -= service_fee_gratong_xtra;
                                         }
@@ -489,8 +491,8 @@
                                     var svc_fee_ge =  Math.round(price_result * service_fee_gratong_xtra);
                                     if ($('#gratong-xtra-cb').is(':checked')) {
                                         var svc_fee_ge =  Math.round(price_result * service_fee_gratong_xtra);
-                                        if (svc_fee_ge > max_admin_fee) {
-                                            svc_fee_ge = max_admin_fee;
+                                        if (svc_fee_ge > max_gratong_admin_fee) {
+                                            svc_fee_ge = max_gratong_admin_fee;
                                         }
 
                                         info += '<p class="info-lbl">Biaya Layanan (Gratong XTRA) : ' + svc_fee_ge.toLocaleString() + '</p>';
@@ -562,7 +564,8 @@
                     }
                 </script>
             </div>
-            
+
+<!--            TOKOPEDIA SECTION-->
             <div id="tokopedia" class="form-fill">
                 <img src="https://www.freepnglogos.com/uploads/logo-tokopedia-png/tokopedia-apa-itu-startup-pengertian-cara-memulai-dan-1.png" class="title-marketplace" />
 
@@ -715,6 +718,7 @@
                 </script>
             </div>
 
+<!--            TIKTOK SHOP SECTION-->
             <div id="tiktok-shop" class="form-fill">
                 <img src="https://www.freepnglogos.com/uploads/tik-tok-logo-png/file-logo-tik-tok-svg-20.png" class="title-marketplace" />
 
